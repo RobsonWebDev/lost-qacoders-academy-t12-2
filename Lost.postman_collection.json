@@ -1,0 +1,1962 @@
+{
+	"info": {
+		"_postman_id": "11785976-30b1-4067-958d-5639bef4534d",
+		"name": "Lost",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26506219",
+		"_collection_link": "https://galactic-water-287137.postman.co/workspace/Lost~fe22ebc8-03a0-414f-a52c-9fc53cdf52cc/collection/26506219-11785976-30b1-4067-958d-5639bef4534d?action=share&source=collection_link&creator=26506219"
+	},
+	"item": [
+		{
+			"name": "00-Auth",
+			"item": [
+				{
+					"name": "auth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"Token\",pm.variables.replaceIn(JSON.parse(responseBody).token));\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(`Olá ${JSON.parse(responseBody).user.fullName}, autenticação autorizada com sucesso!`)\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"rbcerqueira@qacoders.com\",\r\n  \"password\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "01-caminho_feliz",
+			"item": [
+				{
+					"name": "criar_user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"id_user\",pm.variables.replaceIn(JSON.parse(responseBody).user._id))\r",
+									"\r",
+									"pm.test(\"Status code é 201\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(201)\r",
+									"});\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(`Olá ${JSON.parse(responseBody).user.fullName}, cadastro realizado com sucesso.`)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(`Olá ${JSON.parse(responseBody).user.fullName}, autenticação autorizada com sucesso!`)\r",
+									"})\r",
+									"\r",
+									"pm.environment.set(\"id_user\",pm.variables.replaceIn(JSON.parse(responseBody).user._id))\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alter_user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(\"Dados atualizados com sucesso!\")\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"capitao@avengers.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/{{id_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alter_password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(\"Senha atualizada com sucesso!\")\r",
+									"})\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"45678@Test\",\r\n    \"confirmPassword\": \"45678@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/password/{{id_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"password",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alter_status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(\"Status do usuario atualizado com sucesso para status true.\")\r",
+									"})\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/status/{{id_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"status",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// pm.sendRequest({\r",
+									"//       url:  \"https://lost.qacoders-academy.com.br/api/users\",\r",
+									"//       method: 'GET',\r",
+									"//       header: {\r",
+									"//         'Accept': 'application/json',\r",
+									"//         'Authorization': pm.environment.get('Token')\r",
+									"//       },\r",
+									"//       body: {}\r",
+									"//   }, function (err, res) {\r",
+									"//     var lista = []\r",
+									"//     var data = res.json();\r",
+									"//     for (let i = 0; i < data.length; i++) {\r",
+									"//         var push_list = lista.push(data[i]._id)\r",
+									"// }    \r",
+									"//     function RandomUser() {\r",
+									"//         randomUser = lista [Math.floor(Math.random() * lista.length)]\r",
+									"//         getIndex = lista.indexOf(randomUser)\r",
+									"//         return getIndex\r",
+									"// }\r",
+									"//     let indexUser = RandomUser()\r",
+									"   \r",
+									"//     pm.environment.set(\"getIdUser\", lista[indexUser])\r",
+									"// });"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200369\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_user_id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.sendRequest({\r",
+									"      url:  \"https://lost.qacoders-academy.com.br/api/user\",\r",
+									"      method: 'GET',\r",
+									"      header: {\r",
+									"        'Accept': 'application/json',\r",
+									"        'Authorization': pm.environment.get('Token')\r",
+									"      },      \r",
+									"    }, \r",
+									"    function (err, res) {\r",
+									"        var lista = []\r",
+									"        var data = res.json();\r",
+									"        for (let i = 0; i < data.length; i++) {\r",
+									"            var push_list = lista.push(data[i]._id)\r",
+									"        }    \r",
+									"        function RandomUser() {\r",
+									"            randomUser = lista [Math.floor(Math.random() * lista.length)]\r",
+									"            getIndex = lista.indexOf(randomUser)\r",
+									"            return getIndex\r",
+									"        }\r",
+									"        let indexUser = RandomUser()\r",
+									"   \r",
+									"        pm.environment.set(\"getIdUser\", lista[indexUser])\r",
+									"    }\r",
+									");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Usuário ativo\", () => {\r",
+									"  pm.expect(pm.response.json().status).to.eql(true)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"ID do Usuário\", () => {\r",
+									"  pm.expect(pm.response.json()._id).to.exist\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200369\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/{{getIdUser}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{getIdUser}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(\"Usuário deletado com sucesso!.\")\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/{{id_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02-login_acesso_erro",
+			"item": [
+				{
+					"name": "login_user_email_vazio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test( \"O campo e-mail é obrigatório.\", () => {\r",
+									"    pm.response.json().mail\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"\",\r\n    \"password\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_user_email_invalida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"E-mail ou senha informados são inválidos.\", () => {\r",
+									"    pm.response.json().mail\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_user_pass_vazio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo senha é obrigatório.\", () => {\r",
+									"    pm.response.json().password\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login_user_pass_invalida",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"E-mail ou senha informados são inválidos.\", () => {\r",
+									"    pm.response.json().alert\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Testy\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "03-criar_user_erro",
+			"item": [
+				{
+					"name": "criar_user_fullname_incorreto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test( \"Informe o nome e sobrenome com as iniciais em letra maiúscula e sem caracteres especiais.\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_fullname_vazio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo nome completo é obrigatório.\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_email_invalido",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O e-mail informado é inválido. Informe um e-mail no formato [nome@domínio.com].\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogerscapitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_email_vazio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo e-mail é obrigatório.\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_pass_diferentes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"As senhas não coincidem.\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Tes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_pass_vazio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo senha é obrigatório\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_2pass_vazio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo de confirmação de senha é obrigatório.\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_perfil_vazio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo perfil de acesso é obrigatório.\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_perfil_incorreto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo perfil de acesso deve ser preenchido de acordo com o seu cargo exemplo: ADMIN.\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"STUDENT\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_cpf_incompleto",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Deve preencher o CPF com 11 dígitos\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"0010020036\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_cpf_alfanumerico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Campo CPF deve conter apenas números\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100asddfv\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "criar_user_cpf_vazio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 400\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(400)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"O campo CPF é obrigatório!\", () => {\r",
+									"    pm.response.to.have.error\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
