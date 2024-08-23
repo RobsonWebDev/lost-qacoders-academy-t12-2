@@ -129,7 +129,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@hotmail.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -209,7 +209,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\"\r\n}",
+							"raw": "{\r\n    \"mail\": \"steverogers@hotmail.com\",\r\n    \"password\": \"1234@Test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -284,7 +284,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"capitao@avengers.com\"\r\n}",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"capitaosteve@hotmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -385,7 +385,7 @@
 					"response": []
 				},
 				{
-					"name": "alter_status",
+					"name": "alter_status_true",
 					"event": [
 						{
 							"listen": "test",
@@ -444,6 +444,82 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n  \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/status/{{id_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"status",
+								"{{id_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "alter_status_false",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(\"Status do usuario atualizado com sucesso para status false.\")\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"status\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -540,7 +616,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200369\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -644,7 +720,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200369\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -745,6 +821,82 @@
 		{
 			"name": "02-login_acesso_erro",
 			"item": [
+				{
+					"name": "criar_user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"id_user\",pm.variables.replaceIn(JSON.parse(responseBody).user._id))\r",
+									"\r",
+									"pm.test(\"Status code é 201\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(201)\r",
+									"});\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(`Olá ${JSON.parse(responseBody).user.fullName}, cadastro realizado com sucesso.`)\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"Steve Rogers\",\r\n    \"mail\": \"steverogers@hotmail.com\",\r\n    \"password\": \"1234@Test\",\r\n    \"accessProfile\": \"ADMIN\",\r\n    \"cpf\": \"00100200360\",\r\n    \"confirmPassword\": \"1234@Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "login_user_email_vazio",
 					"event": [
@@ -880,7 +1032,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Test\"\r\n}",
+							"raw": "{\r\n    \"mail\": \"steverogers1@hotmail.com\",\r\n    \"password\": \"1234@Test\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -957,7 +1109,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"\"\r\n}",
+							"raw": "{\r\n    \"mail\": \"steverogers@hotmail.com\",\r\n    \"password\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1034,7 +1186,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"mail\": \"steverogers@capitao.com\",\r\n    \"password\": \"1234@Testy\"\r\n}",
+							"raw": "{\r\n    \"mail\": \"steverogers@hotmail.com\",\r\n    \"password\": \"1234@Testy\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1048,6 +1200,82 @@
 							],
 							"path": [
 								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_user",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code é 200\", () => {\r",
+									"  pm.expect(pm.response.code).to.eql(200)\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(`${pm.response.json().msg}`, () => {\r",
+									"    (pm.expect(pm.response.json().msg)).to.eql(\"Usuário deletado com sucesso!.\")\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{Token}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/{{id_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"{{id_user}}"
 							]
 						}
 					},
